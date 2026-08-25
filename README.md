@@ -2,6 +2,10 @@
 
 Catálogo local de instrumentos corporativos construidos desde los maestros gráficos y las referencias institucionales incluidas en `base/`.
 
+## Versión online
+
+El catálogo se publica como sitio estático en `https://ngrr.github.io/stgkit/`. La generación ocurre en el navegador: las plantillas se descargan desde el mismo sitio, se procesan localmente y el DOCX resultante no se envía a un servidor.
+
 ## Inicio
 
 Ejecute `iniciar_catalogo.cmd`. El servicio queda limitado a `127.0.0.1` y se detiene al presionar Enter en su consola. El catálogo no usa automatización de Word.
