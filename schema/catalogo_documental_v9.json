@@ -1,0 +1,148 @@
+{
+  "version": "9.3-biblioteca-visual",
+  "documents": [
+    {
+      "id": "informe",
+      "name": "Informe institucional",
+      "cat": "Informes",
+      "file": "formatos/docx_maestro/STGND_Informe_Maestro_v9.docx",
+      "variants": {
+        "white": "formatos/docx_maestro/STGND_Informe_Maestro_v9.docx",
+        "color": "formatos/docx_maestro/STGND_Informe_Fondo_Color_Maestro_v9.docx"
+      },
+      "type": "report",
+      "sections": true
+    },
+    {
+      "id": "minuta",
+      "name": "Minuta de actividad",
+      "cat": "Informes",
+      "file": "formatos/docx_maestro/STGND_Minuta_Actividad_Maestro_v9.docx",
+      "type": "report",
+      "sections": false,
+      "source": "base/DocumentoMaestro2.docx"
+    },
+    {
+      "id": "normativo",
+      "name": "Informativo / documento normativo",
+      "cat": "Normativa",
+      "file": "formatos/docx_maestro/STGND_Informativo_Normativo_Maestro_v9.docx",
+      "type": "report",
+      "sections": true
+    },
+    {
+      "id": "oficio",
+      "name": "Oficio",
+      "cat": "Correspondencia",
+      "file": "formatos/docx_maestro/STGND_Oficio_Maestro_v9.docx",
+      "type": "letter",
+      "sections": false,
+      "source": "base/STGND - Oficio.zip::STGND - Oficio.docx"
+    },
+    {
+      "id": "circular",
+      "name": "Oficio circular",
+      "cat": "Correspondencia",
+      "file": "formatos/docx_maestro/STGND_Oficio_Circular_Maestro_v9.docx",
+      "type": "letter",
+      "sections": false,
+      "source": "base/STGND - Oficio.zip::STGND - Oficio circular.docx"
+    },
+    {
+      "id": "agenda",
+      "name": "Agenda de reunión",
+      "cat": "Reuniones",
+      "file": "formatos/docx_maestro/STGND_Agenda_Reunion_Maestro_v9.docx",
+      "type": "agenda",
+      "sections": false,
+      "source": "base/DocumentoMaestro.docx"
+    },
+    {
+      "id": "acta",
+      "name": "Acta de reunión",
+      "cat": "Reuniones",
+      "file": "formatos/docx_maestro/STGND_Acta_Reunion_Maestro_v9.docx",
+      "type": "acta",
+      "sections": false,
+      "source": "base/STGND - Oficio.zip::STGND - Acta.docx"
+    },
+    {
+      "id": "programa",
+      "name": "Programa de actividad",
+      "cat": "Actividades",
+      "file": "formatos/docx_maestro/STGND_Programa_Actividad_Maestro_v9.docx",
+      "type": "program",
+      "sections": false,
+      "source": "base/ProgramaHito_lanzamiento.docx"
+    },
+    {
+      "id": "email",
+      "name": "Invitación por email",
+      "cat": "Comunicaciones",
+      "file": "formatos/docx_maestro/STGND_Invitacion_Email_Maestro_v9.docx",
+      "type": "email",
+      "sections": false,
+      "source": "base/Invitacion_Hito_Guia.docx"
+    },
+    {
+      "id": "checklist",
+      "name": "Checklist de actividad",
+      "cat": "Actividades",
+      "file": "formatos/docx_maestro/STGND_Checklist_Actividad_Maestro_v9.docx",
+      "type": "checklist",
+      "sections": false
+    },
+    {
+      "id": "compras",
+      "name": "Ficha de solicitud de compras",
+      "cat": "Administración",
+      "file": "formatos/docx_maestro/STGND_Ficha_Solicitud_Compras_Maestro_v9.docx",
+      "type": "compras",
+      "sections": false
+    },
+    {
+      "id": "graficos",
+      "name": "Documento con gráficos + Excel",
+      "cat": "Datos y gráficos",
+      "file": "formatos/docx_maestro/STGND_Documento_Graficos_Maestro_v9.docx",
+      "type": "charts",
+      "sections": false,
+      "related": [
+        "formatos/xlsx/STGND_Datos_Graficos_Maestro_v9.xlsx"
+      ]
+    },
+    {
+      "id": "xlsx",
+      "name": "Libro de datos y dashboard",
+      "cat": "Datos y gráficos",
+      "file": "formatos/xlsx/STGND_Datos_Graficos_Maestro_v9.xlsx",
+      "type": "static",
+      "sections": false
+    },
+    {
+      "id": "pptx",
+      "name": "Presentación maestra",
+      "cat": "Presentaciones",
+      "file": "formatos/pptx/STGND_Presentacion_Maestro_v9.pptx",
+      "type": "static",
+      "sections": false
+    }
+  ],
+  "style_rules": {
+    "body_font": "Aptos",
+    "body_size_pt": 11,
+    "no_floating_text": true,
+    "section_pack": "sólo para informes extensos e informativos normativos",
+    "generation_mode": "derive-master-or-institutional-reference-and-replace-ooxml",
+    "empty_value_policy": "fallback-to-guidance-text",
+    "role_specific_structures": true,
+    "native_office_charts": true,
+    "utility_reduction": true,
+    "semantic_styles": ["Title", "Heading 1", "Heading 2", "Heading 3", "Normal", "Caption"],
+    "semantic_style_exceptions": ["oficio", "circular"],
+    "formal_correspondence_text_color": "000000",
+    "editable_header_image": ["programa", "email"],
+    "minimum_chart_examples": 10,
+    "normalized_electronic_signature": true
+  }
+}

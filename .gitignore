@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.tmp
+
+# Artefactos de revisión y renderizado local
+previews/
+MANIFEST.txt
+SHA256SUMS.txt
+
+# Legado conservado fuera del producto activo
+referencias/legado_docx_v8/
+referencias/previews_docx_v8_obsoletas/
+referencias/scripts_v8_obsoletos/
+referencias/Catalogo_STGND_Documentos_v7_Maestro.zip
+referencias/DocumentoMaestro.docx
+referencias/DocumentoMaestro2.docx
+referencias/legado_estaticos_v8/STGND_Datos_Graficos_v8.xlsx

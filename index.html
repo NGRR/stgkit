@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo STGND Documentos v9.3</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script src="assets/vendor/jszip.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="assets/logo-stgnd.png" alt="Secretaría Técnica de Igualdad de Género y No Discriminación">
+      <div class="kicker">Catálogo documental</div>
+      <h1>Formatos STGND v9.3</h1>
+      <p class="lead">Formatos institucionales ajustados a su función, con estilos semánticos, firmas normalizadas, cabeceras reemplazables y biblioteca de gráficos Office.</p>
+    </div>
+  </header>
+  <main>
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Buscar formato, categoría o función" aria-label="Buscar formatos">
+      <div id="filters" aria-label="Filtros por categoría"></div>
+    </div>
+    <section id="grid" class="grid" aria-live="polite"></section>
+  </main>
+  <dialog id="modal">
+    <div class="modal-head">
+      <div class="modal-title">
+        <div id="mcat" class="cat"></div>
+        <h2 id="mtitle"></h2>
+        <p id="rel" class="status"></p>
+      </div>
+      <div class="mock">
+        <div class="cat">STGND</div>
+        <h3 id="mockTitle"></h3>
+        <p>Diseño institucional · Aptos 11 · estructura ajustada al tipo documental</p>
+      </div>
+    </div>
+    <form id="form" novalidate></form>
+    <p id="generationStatus" class="generation-status" role="status" aria-live="polite"></p>
+    <div class="modal-actions">
+      <button id="downloadBase" class="btn ghost" type="button">Descargar plantilla</button>
+      <button id="generate" class="btn accent" type="button">Generar DOCX</button>
+      <button id="close" class="btn" type="button">Cerrar</button>
+    </div>
+  </dialog>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
