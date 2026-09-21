@@ -44,3 +44,10 @@ python scripts\construir_desde_maestros.py
 python scripts\verificar_catalogo.py
 & 'C:\Program Files\Adobe\Adobe Creative Cloud Experience\libs\node.exe' scripts\test_generador.js
 ```
+
+
+## Formatos Alfred
+
+La categoría **Alfred** utiliza directamente los siete documentos contenidos en `base/STGND - Oficio.zip`. El catálogo extrae el DOCX correspondiente en el navegador y sustituye únicamente los campos configurables de contenido.
+
+Regla de implementación: no se remaquetan los documentos de origen, no se crean tablas nuevas, no se agregan cuadros de texto ni figuras y se preservan márgenes, firma digital, logotipos, tablas, casillas y recursos gráficos existentes. Esto mantiene la compatibilidad con el gestor institucional Alfred y la integridad de formatos como oficio, oficio circular, agenda, acta, informe, minuta y ficha de compras.
