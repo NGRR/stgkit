@@ -1,0 +1,36 @@
+name: Build Office v9.5
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'tools/build_office_v95.py'
+      - '.github/workflows/build-office-v95.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check openpyxl python-pptx
+      - name: Generate Excel and PowerPoint
+        run: python tools/build_office_v95.py
+      - name: Commit generated Office files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add formatos/xlsx/STGND_Datos_Graficos_Maestro_v9.xlsx formatos/pptx/STGND_Presentacion_Maestro_v9.pptx
+          if git diff --cached --quiet; then
+            echo "No binary changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: actualizar Excel y PPT maestros a v9.5"
+          git push
