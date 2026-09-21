@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Catálogo STGND para generar y descargar documentos institucionales desde el navegador.">
   <meta name="theme-color" content="#4c2b46">
-  <meta property="og:title" content="Catálogo STGND Documentos v9.4">
+  <meta property="og:title" content="Catálogo STGND Documentos v9.5">
   <meta property="og:description" content="Formatos institucionales editables para gestión documental.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ngrr.github.io/stgkit/">
   <link rel="canonical" href="https://ngrr.github.io/stgkit/">
-  <title>Catálogo STGND Documentos v9.4</title>
+  <title>Catálogo STGND Documentos v9.5</title>
   <link rel="stylesheet" href="assets/css/app.css">
   <script src="assets/vendor/jszip.min.js"></script>
 </head>
@@ -20,8 +20,8 @@
     <div class="brand">
       <img src="assets/logo-stgnd.png" alt="Secretaría Técnica de Igualdad de Género y No Discriminación">
       <div class="kicker">Catálogo documental</div>
-      <h1>Formatos STGND v9.4</h1>
-      <p class="lead">Formatos institucionales ajustados a su función, con estilos semánticos, firmas normalizadas y biblioteca Office. Incluye una colección Alfred que conserva la estructura institucional de los documentos de origen.</p>
+      <h1>Formatos STGND v9.5</h1>
+      <p class="lead">Formatos institucionales ajustados a su función y biblioteca Office. La colección Alfred conserva íntegramente la estructura técnica de los documentos de origen y permite configurar o descargar cada formato directamente.</p>
     </div>
   </header>
   <main>
@@ -29,6 +29,14 @@
       <input id="q" type="search" placeholder="Buscar formato, categoría o función" aria-label="Buscar formatos">
       <div id="filters" aria-label="Filtros por categoría"></div>
     </div>
+    <section id="alfredPackage" class="alfred-package" hidden>
+      <div>
+        <div class="cat">Alfred · paquete fuente</div>
+        <h2>Formatos institucionales Alfred</h2>
+        <p>Descarga el paquete original completo. Los formatos configurables conservan la estructura institucional y los recursos necesarios para Alfred.</p>
+      </div>
+      <button id="downloadAlfredPackage" class="btn accent" type="button">Descargar paquete Alfred completo</button>
+    </section>
     <section id="grid" class="grid" aria-live="polite"></section>
   </main>
   <dialog id="modal">

@@ -51,3 +51,14 @@ python scripts\verificar_catalogo.py
 La categoría **Alfred** utiliza directamente los siete documentos contenidos en `base/STGND - Oficio.zip`. El catálogo extrae el DOCX correspondiente en el navegador y sustituye únicamente los campos configurables de contenido.
 
 Regla de implementación: no se remaquetan los documentos de origen, no se crean tablas nuevas, no se agregan cuadros de texto ni figuras y se preservan márgenes, firma digital, logotipos, tablas, casillas y recursos gráficos existentes. Esto mantiene la compatibilidad con el gestor institucional Alfred y la integridad de formatos como oficio, oficio circular, agenda, acta, informe, minuta y ficha de compras.
+
+
+## v9.5 — revisión institucional
+
+- Se elimina de la interfaz el documento normativo y la ficha de solicitud de compras.
+- La categoría Correspondencia pasa a llamarse **Oficios**.
+- Agenda y Acta de la categoría Reuniones usan directamente los formatos fuente compatibles con Alfred, que ya incorporan el logotipo institucional, evitando una segunda remaquetación.
+- Las tarjetas Alfred incluyen dos acciones visibles: **Configurar** y **Descargar formato**.
+- La categoría Alfred incluye un botón para descargar el paquete fuente completo `base/STGND - Oficio.zip`.
+- El paquete fuente permanece íntegro aunque algunos documentos ya no se muestren como tarjetas del catálogo.
+- La actualización visual de Excel y PPT se mantiene como una revisión separada de los binarios Office.
