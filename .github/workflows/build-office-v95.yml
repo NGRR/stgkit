@@ -1,48 +1,36 @@
-name: Replace STGND PowerPoint v3 2026
+name: Build Office v9.5
 
 on:
   push:
     branches: [ main ]
     paths:
+      - 'tools/build_office_v95.py'
       - '.github/workflows/build-office-v95.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  replace-pptx:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-      - name: Install exact uploaded PowerPoint
-        env:
-          SOURCE_URL: "https://sdmntprnortheu.oaiusercontent.com/files/00000000-0920-81f4-8941-214de0dd10a4/raw?se=2026-09-22T16%3A53%3A11Z&sp=r&sv=2026-02-06&sr=b&scid=a5e64aa6-5909-5eba-adbe-99000e0d7fbf&skoid=db6dad9e-03ee-465b-aef6-ce0f63a161dc&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-22T12%3A55%3A00Z&ske=2026-09-23T12%3A55%3A00Z&sks=b&skv=2026-02-06&sig=kOc91EG2L6a8ZPtDahBNuhzcROajiLi%2BWl6RCREXGd4%3D"
-          EXPECTED_SHA256: "7e513f2a9b86613e4d31f4a6426964533544a488c7e2ee520057017bc2d45b51"
-          TARGET: "formatos/pptx/STGND_Presentacion_v3_2026.pptx"
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check openpyxl python-pptx
+      - name: Generate Excel and PowerPoint
+        run: python tools/build_office_v95.py
+      - name: Commit generated Office files
         run: |
-          set -euo pipefail
-          curl -fL --retry 3 --retry-delay 2 "$SOURCE_URL" -o "$TARGET"
-          test "$(stat -c%s "$TARGET")" = "7576095"
-          echo "$EXPECTED_SHA256  $TARGET" | sha256sum -c -
-          python - <<'PY'
-          from pathlib import Path
-          p = Path("assets/js/app.js")
-          s = p.read_text(encoding="utf-8")
-          old = "formatos/pptx/STGND_Presentacion_Maestro_v9.pptx"
-          new = "formatos/pptx/STGND_Presentacion_v3_2026.pptx"
-          if old not in s:
-              raise SystemExit("No se encontró la referencia PPTX antigua en app.js")
-          p.write_text(s.replace(old, new), encoding="utf-8")
-          PY
-          rm -f formatos/pptx/STGND_Presentacion_Maestro_v9.pptx
-      - name: Commit v3 2026 replacement
-        run: |
-          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A formatos/pptx assets/js/app.js
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: actualizar presentación STGND a v3 2026"
-          git push origin HEAD:main
+          git add formatos/xlsx/STGND_Datos_Graficos_Maestro_v9.xlsx formatos/pptx/STGND_Presentacion_Maestro_v9.pptx
+          if git diff --cached --quiet; then
+            echo "No binary changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: actualizar Excel y PPT maestros a v9.5"
+          git push
