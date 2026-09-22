@@ -62,3 +62,21 @@ Regla de implementación: no se remaquetan los documentos de origen, no se crean
 - La categoría Alfred incluye un botón para descargar el paquete fuente completo `base/STGND - Oficio.zip`.
 - El paquete fuente permanece íntegro aunque algunos documentos ya no se muestren como tarjetas del catálogo.
 - La actualización visual de Excel y PPT se mantiene como una revisión separada de los binarios Office.
+
+
+## v9.6 — Alfred visual mínimo
+
+La colección Alfred recibe una capa gráfica compatible sin reconstruir su arquitectura documental:
+
+- Aptos como tipografía de trabajo y cuerpo de 11 pt donde corresponde.
+- Púrpura `#4C2B46` para jerarquías y naranja `#E97700` como señal, siguiendo el lenguaje visual del kit.
+- Reglas de párrafo y sombreado de celdas existentes en lugar de cuadros de texto o figuras flotantes nuevas.
+- Agenda y Acta mantienen su logotipo institucional; Acta estiliza únicamente la tabla de asistencia ya existente.
+- Oficio y Oficio circular conservan los tabuladores y márgenes laterales institucionales de 30 mm; se reduce sólo el espacio vertical para evitar el salto innecesario de distribución a una segunda página.
+- Los bloques `FIRMADIGITAL` mantienen exactamente su objeto y geometría; sólo se suaviza el azul heredado a un gris-púrpura neutro.
+- Informe y Minuta conservan sus gráficos y secuencia; se normalizan tipografía, interlineado y jerarquías.
+- No se crean tablas nuevas, no se agregan textos flotantes y no se modifica el mapeo usado por el configurador.
+- El formato de compras continúa fuera del catálogo visible y se conserva sin modificaciones dentro del paquete por compatibilidad histórica.
+- El paquete fuente anterior se preserva en `base/originales/STGND - Oficio_original.zip`.
+
+La construcción es reproducible mediante `tools/build_alfred_visual_v96.py`.
