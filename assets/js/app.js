@@ -79,7 +79,7 @@ const DOCS=[
  {id:'email',name:'Invitación por email',cat:'Comunicaciones',file:'formatos/docx_maestro/STGND_Invitacion_Email_Maestro_v9.docx',headerImage:'word/media/image1.png',fields:['imagen_cabecera',...COMMON,'ciudad','destinatarios_email','asunto_email','preheader','cuerpo_invitacion','hora_inicio','lugar','modalidad','cta','url_cta']},
  {id:'graficos',name:'Documento con gráficos',cat:'Datos y gráficos',file:'formatos/docx_maestro/STGND_Documento_Graficos_Maestro_v9.docx',fields:['tema','titulo','bajada','anio','codigo','fecha','estado','responsable','periodo_datos','lectura_grafico','fuente_grafico'],related:['formatos/xlsx/STGND_Datos_Graficos_Maestro_v9.xlsx']},
  {id:'xlsx',name:'Libro de datos y dashboard',cat:'Datos y gráficos',file:'formatos/xlsx/STGND_Datos_Graficos_Maestro_v9.xlsx',static:true,label:'Descargar XLSX'},
- {id:'pptx',name:'Presentación maestra',cat:'Presentaciones',file:'formatos/pptx/STGND_Presentacion_Maestro_v9.pptx',static:true,label:'Descargar PPTX'}
+ {id:'pptx',name:'Presentación maestra',cat:'Presentaciones',file:'formatos/pptx/STGND_Presentacion_v3_2026.pptx',static:true,label:'Descargar PPTX'}
 ];
 
 const ALFRED_SOURCE='base/STGND - Oficio.zip';
