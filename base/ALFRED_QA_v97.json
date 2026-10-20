@@ -1,0 +1,146 @@
+{
+  "version": "9.7",
+  "documentos_activos": 6,
+  "criterios": {
+    "margen_lateral_minimo_general_mm": 20,
+    "margen_superior_inferior_minimo_general_mm": 18,
+    "oficios_margen_lateral_mm": 30,
+    "unica_ancla_flotante_admitida": "FIRMADIGITAL de origen Alfred",
+    "graficos_cabecera": "solo imágenes inline; sin formas flotantes",
+    "ficha_compras": "excluida del paquete Alfred activo"
+  },
+  "documentos": [
+    {
+      "archivo": "STGND - Oficio.docx",
+      "pagina_mm": [
+        215.9,
+        330.2
+      ],
+      "margenes_mm": {
+        "superior": 18.0,
+        "inferior": 18.0,
+        "izquierdo": 30.0,
+        "derecho": 30.0
+      },
+      "cabecera_pie_mm": [
+        8.0,
+        8.0
+      ],
+      "parrafos": 22,
+      "tablas": 1,
+      "anclas_cuerpo": 1,
+      "anclas_cabecera": 0,
+      "imagenes_inline_cabecera": 0
+    },
+    {
+      "archivo": "STGND - Oficio circular.docx",
+      "pagina_mm": [
+        215.9,
+        330.2
+      ],
+      "margenes_mm": {
+        "superior": 18.0,
+        "inferior": 18.0,
+        "izquierdo": 30.0,
+        "derecho": 30.0
+      },
+      "cabecera_pie_mm": [
+        8.0,
+        8.0
+      ],
+      "parrafos": 25,
+      "tablas": 1,
+      "anclas_cuerpo": 1,
+      "anclas_cabecera": 0,
+      "imagenes_inline_cabecera": 0
+    },
+    {
+      "archivo": "STGND - Agenda.docx",
+      "pagina_mm": [
+        215.9,
+        330.2
+      ],
+      "margenes_mm": {
+        "superior": 20.0,
+        "inferior": 20.0,
+        "izquierdo": 22.0,
+        "derecho": 22.0
+      },
+      "cabecera_pie_mm": [
+        8.0,
+        8.0
+      ],
+      "parrafos": 21,
+      "tablas": 0,
+      "anclas_cuerpo": 1,
+      "anclas_cabecera": 0,
+      "imagenes_inline_cabecera": 1
+    },
+    {
+      "archivo": "STGND - Acta.docx",
+      "pagina_mm": [
+        215.9,
+        330.2
+      ],
+      "margenes_mm": {
+        "superior": 18.0,
+        "inferior": 18.0,
+        "izquierdo": 20.0,
+        "derecho": 20.0
+      },
+      "cabecera_pie_mm": [
+        8.0,
+        8.0
+      ],
+      "parrafos": 31,
+      "tablas": 2,
+      "anclas_cuerpo": 1,
+      "anclas_cabecera": 0,
+      "imagenes_inline_cabecera": 1
+    },
+    {
+      "archivo": "STGND - Informe.docx",
+      "pagina_mm": [
+        215.9,
+        279.4
+      ],
+      "margenes_mm": {
+        "superior": 18.0,
+        "inferior": 18.0,
+        "izquierdo": 22.0,
+        "derecho": 22.0
+      },
+      "cabecera_pie_mm": [
+        8.0,
+        8.0
+      ],
+      "parrafos": 50,
+      "tablas": 1,
+      "anclas_cuerpo": 1,
+      "anclas_cabecera": 0,
+      "imagenes_inline_cabecera": 1
+    },
+    {
+      "archivo": "STGND - Minuta.docx",
+      "pagina_mm": [
+        215.9,
+        330.2
+      ],
+      "margenes_mm": {
+        "superior": 20.0,
+        "inferior": 20.0,
+        "izquierdo": 22.0,
+        "derecho": 22.0
+      },
+      "cabecera_pie_mm": [
+        8.0,
+        8.0
+      ],
+      "parrafos": 26,
+      "tablas": 0,
+      "anclas_cuerpo": 1,
+      "anclas_cabecera": 0,
+      "imagenes_inline_cabecera": 1
+    }
+  ]
+}
