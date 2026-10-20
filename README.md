@@ -1,4 +1,4 @@
-# Catálogo STGND Documentos v9.3
+# Catálogo STGND Documentos v9.7
 
 Catálogo local de instrumentos corporativos construidos desde los maestros gráficos y las referencias institucionales incluidas en `base/`.
 
@@ -80,3 +80,21 @@ La colección Alfred recibe una capa gráfica compatible sin reconstruir su arqu
 - El paquete fuente anterior se preserva en `base/originales/STGND - Oficio_original.zip`.
 
 La construcción es reproducible mediante `tools/build_alfred_visual_v96.py`.
+
+
+## v9.7 — QA de formatos Alfred
+
+Se revisaron los formatos Alfred como documentos operativos, no sólo como piezas visuales. La v9.6 había reducido demasiado los márgenes en Agenda, Acta, Informe y especialmente Minuta.
+
+Correcciones:
+
+- Minuta y Agenda: 22 mm laterales y 20 mm superior/inferior.
+- Acta: 20 mm laterales y 18 mm superior/inferior.
+- Informe: 22 mm laterales y 18 mm superior/inferior.
+- Oficio y Oficio circular: se preservan 30 mm laterales por dependencia de tabuladores institucionales y se fijan 18 mm superior/inferior.
+- Cabecera y pie: distancia segura de 8 mm.
+- Se eliminan formas decorativas flotantes de las cabeceras; los logotipos de Informe y Minuta quedan como imágenes inline.
+- El único objeto flotante permitido en el cuerpo es el bloque técnico `FIRMADIGITAL`, preservado por compatibilidad con Alfred.
+- El paquete activo contiene seis documentos. La ficha de solicitud de compras, eliminada del catálogo por decisión editorial, queda sólo en el archivo histórico `base/originales/STGND - Oficio_original.zip`.
+- La reconstrucción usa siempre el archivo histórico original como fuente autoritativa, evitando aplicar estilos repetidamente sobre una versión ya transformada.
+- `base/ALFRED_QA_v97.json` registra márgenes, tamaños de página, estructura y conteos de objetos para cada documento.

@@ -7,10 +7,13 @@ from docx.oxml.ns import qn
 from zipfile import ZipFile, ZIP_DEFLATED
 import shutil
 import tempfile
+import json
+from lxml import etree
 
 ROOT=Path(__file__).resolve().parents[1]
-SOURCE=ROOT/'base'/'STGND - Oficio.zip'
-ARCHIVE=ROOT/'base'/'originales'/'STGND - Oficio_original.zip'
+SOURCE=ROOT/'base'/'originales'/'STGND - Oficio_original.zip'
+OUTPUT=ROOT/'base'/'STGND - Oficio.zip'
+QA_REPORT=ROOT/'base'/'ALFRED_QA_v97.json'
 PURPLE='4C2B46'; ORANGE='E97700'; GREY='686868'; LIGHT='F4F1F3'; BLACK='222222'
 
 def set_font(run,name='Aptos',size=11,color=BLACK,bold=None):
@@ -54,11 +57,11 @@ def set_cell_border(cell,**edges):
         if el is None: el=OxmlElement(tag); borders.append(el)
         for k,v in opts.items(): el.set(qn('w:'+k),str(v))
 
-def set_margins(doc,top,bottom,left,right):
+def set_margins(doc,top,bottom,left,right,header=8,footer=8):
     for s in doc.sections:
         s.top_margin=Mm(top); s.bottom_margin=Mm(bottom)
         s.left_margin=Mm(left); s.right_margin=Mm(right)
-        s.header_distance=Mm(6); s.footer_distance=Mm(6)
+        s.header_distance=Mm(header); s.footer_distance=Mm(footer)
 
 def style_all_runs(doc):
     for p in doc.paragraphs:
@@ -92,7 +95,7 @@ def style_logo_paras(doc):
 def improve_oficio(doc):
     # Horizontal margins stay at 30 mm because official tab stops depend on them.
     # Only vertical whitespace and typography are tightened to keep one-page output.
-    set_margins(doc,12,12,30,30)
+    set_margins(doc,18,18,30,30)
     style_all_runs(doc); style_logo_paras(doc)
     ps=doc.paragraphs
     for i,p in enumerate(ps):
@@ -123,7 +126,7 @@ def improve_oficio(doc):
                     set_cell_border(cell,bottom={'val':'single','sz':'6','color':ORANGE,'space':'0'})
 
 def improve_agenda(doc):
-    set_margins(doc,11,11,16,16); style_all_runs(doc)
+    set_margins(doc,20,20,22,22); style_all_runs(doc)
     ps=doc.paragraphs
     if len(ps)>1:
         for r in ps[1].runs: set_font(r,'Aptos Display',16,PURPLE,False)
@@ -135,7 +138,7 @@ def improve_agenda(doc):
         if i not in [1,7,9,14]: style_meta(p,10.5 if i<7 else 11)
 
 def improve_acta(doc):
-    set_margins(doc,10,10,14,14); style_all_runs(doc)
+    set_margins(doc,18,18,20,20); style_all_runs(doc)
     ps=doc.paragraphs
     if ps:
         for r in ps[0].runs: set_font(r,'Aptos Display',15,PURPLE,False)
@@ -162,7 +165,7 @@ def improve_acta(doc):
                     set_cell_border(cell,bottom={'val':'single','sz':'8','color':ORANGE,'space':'0'})
 
 def improve_informe(doc):
-    set_margins(doc,12,12,16,16); style_all_runs(doc)
+    set_margins(doc,18,18,22,22); style_all_runs(doc)
     for p in doc.paragraphs:
         txt=p.text.strip()
         if txt in {'Antecedentes','Introducción','Análisis','Consideraciones Finales.'}:
@@ -176,7 +179,7 @@ def improve_informe(doc):
             p.paragraph_format.space_after=Pt(4)
 
 def improve_minuta(doc):
-    set_margins(doc,12,12,16,16); style_all_runs(doc)
+    set_margins(doc,20,20,22,22); style_all_runs(doc)
     ps=doc.paragraphs
     for i,p in enumerate(ps):
         txt=p.text.strip()
@@ -209,17 +212,130 @@ def soften_signature_placeholder(path):
             zout.writestr(item,data)
     tmp.replace(path)
 
+
+def normalize_header_graphics(path,right_align=False):
+    """Remove decorative floating header shapes and convert header pictures to inline."""
+    W='http://schemas.openxmlformats.org/wordprocessingml/2006/main'
+    WP='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+    A='http://schemas.openxmlformats.org/drawingml/2006/main'
+    ns={'w':W,'wp':WP,'a':A}
+    tmp=path.with_suffix('.header.docx')
+    with ZipFile(path,'r') as zin, ZipFile(tmp,'w',ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            data=zin.read(item.filename)
+            if item.filename.startswith('word/header') and item.filename.endswith('.xml'):
+                root=etree.fromstring(data)
+                changed=False
+                for anchor in list(root.xpath('.//wp:anchor',namespaces=ns)):
+                    if anchor.xpath('.//a:blip',namespaces=ns):
+                        inline=etree.Element('{%s}inline'%WP)
+                        for attr in ['distT','distB','distL','distR']:
+                            inline.set(attr,'0')
+                        for tag in ['extent','effectExtent','docPr','cNvGraphicFramePr']:
+                            el=anchor.find('{%s}%s'%(WP,tag))
+                            if el is not None:
+                                inline.append(el)
+                        graphic=anchor.find('{%s}graphic'%A)
+                        if graphic is not None:
+                            inline.append(graphic)
+                        anchor.getparent().replace(anchor,inline)
+                        changed=True
+                    else:
+                        run=anchor
+                        while run is not None and run.tag != '{%s}r'%W:
+                            run=run.getparent()
+                        if run is not None and run.getparent() is not None:
+                            run.getparent().remove(run)
+                            changed=True
+                if right_align:
+                    for p in root.xpath('.//w:p[.//wp:inline]',namespaces=ns):
+                        pPr=p.find('{%s}pPr'%W)
+                        if pPr is None:
+                            pPr=etree.Element('{%s}pPr'%W)
+                            p.insert(0,pPr)
+                        jc=pPr.find('{%s}jc'%W)
+                        if jc is None:
+                            jc=etree.SubElement(pPr,'{%s}jc'%W)
+                        jc.set('{%s}val'%W,'right')
+                if changed:
+                    data=etree.tostring(root,xml_declaration=True,encoding='UTF-8',standalone='yes')
+            zout.writestr(item,data)
+    tmp.replace(path)
+
+def drawing_counts(path):
+    WP='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+    ns={'wp':WP}
+    body_anchors=0
+    header_anchors=0
+    header_inlines=0
+    with ZipFile(path) as z:
+        xml=etree.fromstring(z.read('word/document.xml'))
+        body_anchors=len(xml.xpath('.//wp:anchor',namespaces=ns))
+        for part in z.namelist():
+            if part.startswith('word/header') and part.endswith('.xml'):
+                hx=etree.fromstring(z.read(part))
+                header_anchors += len(hx.xpath('.//wp:anchor',namespaces=ns))
+                header_inlines += len(hx.xpath('.//wp:inline',namespaces=ns))
+    return body_anchors,header_anchors,header_inlines
+
+def audit_documents(src,out,specs):
+    required={
+        'STGND - Oficio.docx':(18,18,30,30),
+        'STGND - Oficio circular.docx':(18,18,30,30),
+        'STGND - Agenda.docx':(20,20,22,22),
+        'STGND - Acta.docx':(18,18,20,20),
+        'STGND - Informe.docx':(18,18,22,22),
+        'STGND - Minuta.docx':(20,20,22,22),
+    }
+    rows=[]
+    for name,_ in specs:
+        original=Document(src/name)
+        current=Document(out/name)
+        if len(original.paragraphs)!=len(current.paragraphs) or len(original.tables)!=len(current.tables):
+            raise RuntimeError(f'Estructura alterada en {name}')
+        s=current.sections[0]
+        margins=tuple(round(x.mm,1) for x in [s.top_margin,s.bottom_margin,s.left_margin,s.right_margin])
+        if margins != required[name]:
+            raise RuntimeError(f'Márgenes inesperados en {name}: {margins}')
+        body_anchors,header_anchors,header_inlines=drawing_counts(out/name)
+        if body_anchors != 1:
+            raise RuntimeError(f'{name}: se esperaba solo el ancla técnica FIRMADIGITAL; encontradas {body_anchors}')
+        if header_anchors != 0:
+            raise RuntimeError(f'{name}: quedan {header_anchors} objetos flotantes en cabecera')
+        rows.append({
+            'archivo':name,
+            'pagina_mm':[round(s.page_width.mm,1),round(s.page_height.mm,1)],
+            'margenes_mm':{'superior':margins[0],'inferior':margins[1],'izquierdo':margins[2],'derecho':margins[3]},
+            'cabecera_pie_mm':[round(s.header_distance.mm,1),round(s.footer_distance.mm,1)],
+            'parrafos':len(current.paragraphs),
+            'tablas':len(current.tables),
+            'anclas_cuerpo':body_anchors,
+            'anclas_cabecera':header_anchors,
+            'imagenes_inline_cabecera':header_inlines,
+        })
+    return {
+        'version':'9.7',
+        'documentos_activos':len(rows),
+        'criterios':{
+            'margen_lateral_minimo_general_mm':20,
+            'margen_superior_inferior_minimo_general_mm':18,
+            'oficios_margen_lateral_mm':30,
+            'unica_ancla_flotante_admitida':'FIRMADIGITAL de origen Alfred',
+            'graficos_cabecera':'solo imágenes inline; sin formas flotantes',
+            'ficha_compras':'excluida del paquete Alfred activo',
+        },
+        'documentos':rows,
+    }
+
 def main():
     if not SOURCE.exists():
-        raise SystemExit(f'Missing source: {SOURCE}')
-    ARCHIVE.parent.mkdir(parents=True,exist_ok=True)
-    if not ARCHIVE.exists():
-        shutil.copy2(SOURCE,ARCHIVE)
+        raise SystemExit(f'Missing authoritative source: {SOURCE}')
 
     with tempfile.TemporaryDirectory() as td:
         td=Path(td); src=td/'src'; out=td/'out'
         src.mkdir(); out.mkdir()
-        with ZipFile(SOURCE) as z: z.extractall(src)
+        with ZipFile(SOURCE) as z:
+            z.extractall(src)
 
         specs=[
             ('STGND - Oficio.docx',improve_oficio),
@@ -230,18 +346,25 @@ def main():
             ('STGND - Minuta.docx',improve_minuta),
         ]
         for name,fn in specs:
-            doc=Document(src/name); fn(doc); doc.save(out/name); soften_signature_placeholder(out/name)
+            doc=Document(src/name)
+            fn(doc)
+            doc.save(out/name)
+            soften_signature_placeholder(out/name)
+            if name=='STGND - Informe.docx':
+                normalize_header_graphics(out/name,False)
+            elif name=='STGND - Minuta.docx':
+                normalize_header_graphics(out/name,True)
 
-        purchase='Ficha de solicitud de compras.docx'
-        if (src/purchase).exists():
-            shutil.copy2(src/purchase,out/purchase)
+        qa=audit_documents(src,out,specs)
 
         tmpzip=td/'alfred.zip'
         with ZipFile(tmpzip,'w',ZIP_DEFLATED) as z:
-            for p in sorted(out.glob('*.docx')): z.write(p,p.name)
-        shutil.copy2(tmpzip,SOURCE)
-        print(f'Updated {SOURCE}')
-        print(f'Original preserved at {ARCHIVE}')
+            for name,_ in specs:
+                z.write(out/name,name)
+        shutil.copy2(tmpzip,OUTPUT)
+        QA_REPORT.write_text(json.dumps(qa,ensure_ascii=False,indent=2),encoding='utf-8')
+        print(f'Updated {OUTPUT}')
+        print(f'QA report: {QA_REPORT}')
 
 if __name__=='__main__':
     main()

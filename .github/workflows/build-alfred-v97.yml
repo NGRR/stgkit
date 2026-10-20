@@ -1,11 +1,11 @@
-name: Build Alfred visual v9.6
+name: Build Alfred visual v9.7
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'tools/build_alfred_visual_v96.py'
-      - '.github/workflows/build-alfred-v96.yml'
+      - 'tools/build_alfred_visual_v97.py'
+      - '.github/workflows/build-alfred-v97.yml'
   workflow_dispatch:
 
 permissions:
@@ -19,18 +19,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install dependency
-        run: python -m pip install --disable-pip-version-check python-docx
-      - name: Build Alfred package
-        run: python tools/build_alfred_visual_v96.py
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check python-docx lxml
+      - name: Build and audit Alfred package
+        run: python tools/build_alfred_visual_v97.py
       - name: Commit generated Alfred package
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "base/STGND - Oficio.zip" "base/originales/STGND - Oficio_original.zip"
+          git add "base/STGND - Oficio.zip" "base/ALFRED_QA_v97.json"
           if git diff --cached --quiet; then
-            echo "No Alfred binary changes to commit."
+            echo "No Alfred changes to commit."
             exit 0
           fi
-          git commit -m "chore: actualizar formatos Alfred a v9.6 [skip ci]"
+          git commit -m "chore: corregir formatos Alfred a v9.7 [skip ci]"
           git push
