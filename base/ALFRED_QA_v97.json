@@ -5,9 +5,10 @@
     "margen_lateral_minimo_general_mm": 20,
     "margen_superior_inferior_minimo_general_mm": 18,
     "oficios_margen_lateral_mm": 30,
-    "unica_ancla_flotante_admitida": "FIRMADIGITAL de origen Alfred",
     "graficos_cabecera": "solo imágenes inline; sin formas flotantes",
-    "ficha_compras": "excluida del paquete Alfred activo"
+    "ficha_compras": "excluida del paquete Alfred activo",
+    "anclas_cuerpo": "FIRMADIGITAL; Informe conserva además el recurso gráfico vertical de portada de la revisión 2026-11-09",
+    "informe_sha256": "718e976145784cf84644190a9b3f78edae57cef76ade5d19647818e3b0cbda1c"
   },
   "documentos": [
     {
@@ -17,14 +18,14 @@
         330.2
       ],
       "margenes_mm": {
-        "superior": 18.0,
-        "inferior": 18.0,
-        "izquierdo": 30.0,
-        "derecho": 30.0
+        "superior": 18,
+        "inferior": 18,
+        "izquierdo": 30,
+        "derecho": 30
       },
       "cabecera_pie_mm": [
-        8.0,
-        8.0
+        8,
+        8
       ],
       "parrafos": 22,
       "tablas": 1,
@@ -39,14 +40,14 @@
         330.2
       ],
       "margenes_mm": {
-        "superior": 18.0,
-        "inferior": 18.0,
-        "izquierdo": 30.0,
-        "derecho": 30.0
+        "superior": 18,
+        "inferior": 18,
+        "izquierdo": 30,
+        "derecho": 30
       },
       "cabecera_pie_mm": [
-        8.0,
-        8.0
+        8,
+        8
       ],
       "parrafos": 25,
       "tablas": 1,
@@ -61,14 +62,14 @@
         330.2
       ],
       "margenes_mm": {
-        "superior": 20.0,
-        "inferior": 20.0,
-        "izquierdo": 22.0,
-        "derecho": 22.0
+        "superior": 20,
+        "inferior": 20,
+        "izquierdo": 22,
+        "derecho": 22
       },
       "cabecera_pie_mm": [
-        8.0,
-        8.0
+        8,
+        8
       ],
       "parrafos": 21,
       "tablas": 0,
@@ -83,14 +84,14 @@
         330.2
       ],
       "margenes_mm": {
-        "superior": 18.0,
-        "inferior": 18.0,
-        "izquierdo": 20.0,
-        "derecho": 20.0
+        "superior": 18,
+        "inferior": 18,
+        "izquierdo": 20,
+        "derecho": 20
       },
       "cabecera_pie_mm": [
-        8.0,
-        8.0
+        8,
+        8
       ],
       "parrafos": 31,
       "tablas": 2,
@@ -105,18 +106,18 @@
         279.4
       ],
       "margenes_mm": {
-        "superior": 18.0,
-        "inferior": 18.0,
-        "izquierdo": 22.0,
-        "derecho": 22.0
+        "superior": 18,
+        "inferior": 18,
+        "izquierdo": 22,
+        "derecho": 22
       },
       "cabecera_pie_mm": [
-        8.0,
-        8.0
+        8,
+        8
       ],
-      "parrafos": 50,
-      "tablas": 1,
-      "anclas_cuerpo": 1,
+      "parrafos": 56,
+      "tablas": 2,
+      "anclas_cuerpo": 2,
       "anclas_cabecera": 0,
       "imagenes_inline_cabecera": 1
     },
@@ -127,14 +128,14 @@
         330.2
       ],
       "margenes_mm": {
-        "superior": 20.0,
-        "inferior": 20.0,
-        "izquierdo": 22.0,
-        "derecho": 22.0
+        "superior": 20,
+        "inferior": 20,
+        "izquierdo": 22,
+        "derecho": 22
       },
       "cabecera_pie_mm": [
-        8.0,
-        8.0
+        8,
+        8
       ],
       "parrafos": 26,
       "tablas": 0,
@@ -142,5 +143,6 @@
       "anclas_cabecera": 0,
       "imagenes_inline_cabecera": 1
     }
-  ]
+  ],
+  "revision": "2026-11-09"
 }

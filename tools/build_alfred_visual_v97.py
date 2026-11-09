@@ -8,12 +8,15 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import shutil
 import tempfile
 import json
+import hashlib
 from lxml import etree
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'base'/'originales'/'STGND - Oficio_original.zip'
 OUTPUT=ROOT/'base'/'STGND - Oficio.zip'
 QA_REPORT=ROOT/'base'/'ALFRED_QA_v97.json'
+INFORME_OVERRIDE=ROOT/'base'/'originales'/'STGND - Informe_2026-11-09.docx'
+INFORME_SHA256='718e976145784cf84644190a9b3f78edae57cef76ade5d19647818e3b0cbda1c'
 PURPLE='4C2B46'; ORANGE='E97700'; GREY='686868'; LIGHT='F4F1F3'; BLACK='222222'
 
 def set_font(run,name='Aptos',size=11,color=BLACK,bold=None):
@@ -289,7 +292,8 @@ def audit_documents(src,out,specs):
     }
     rows=[]
     for name,_ in specs:
-        original=Document(src/name)
+        original_path=INFORME_OVERRIDE if name=='STGND - Informe.docx' else src/name
+        original=Document(original_path)
         current=Document(out/name)
         if len(original.paragraphs)!=len(current.paragraphs) or len(original.tables)!=len(current.tables):
             raise RuntimeError(f'Estructura alterada en {name}')
@@ -298,8 +302,9 @@ def audit_documents(src,out,specs):
         if margins != required[name]:
             raise RuntimeError(f'Márgenes inesperados en {name}: {margins}')
         body_anchors,header_anchors,header_inlines=drawing_counts(out/name)
-        if body_anchors != 1:
-            raise RuntimeError(f'{name}: se esperaba solo el ancla técnica FIRMADIGITAL; encontradas {body_anchors}')
+        expected_body_anchors=2 if name=='STGND - Informe.docx' else 1
+        if body_anchors != expected_body_anchors:
+            raise RuntimeError(f'{name}: anclas de cuerpo inesperadas; esperadas {expected_body_anchors}, encontradas {body_anchors}')
         if header_anchors != 0:
             raise RuntimeError(f'{name}: quedan {header_anchors} objetos flotantes en cabecera')
         rows.append({
@@ -315,14 +320,16 @@ def audit_documents(src,out,specs):
         })
     return {
         'version':'9.7',
+        'revision':'2026-11-09',
         'documentos_activos':len(rows),
         'criterios':{
             'margen_lateral_minimo_general_mm':20,
             'margen_superior_inferior_minimo_general_mm':18,
             'oficios_margen_lateral_mm':30,
-            'unica_ancla_flotante_admitida':'FIRMADIGITAL de origen Alfred',
+            'anclas_cuerpo':'FIRMADIGITAL; Informe conserva además el recurso gráfico vertical de portada de la revisión 2026-11-09',
             'graficos_cabecera':'solo imágenes inline; sin formas flotantes',
             'ficha_compras':'excluida del paquete Alfred activo',
+            'informe_sha256':INFORME_SHA256,
         },
         'documentos':rows,
     }
@@ -330,6 +337,10 @@ def audit_documents(src,out,specs):
 def main():
     if not SOURCE.exists():
         raise SystemExit(f'Missing authoritative source: {SOURCE}')
+    if not INFORME_OVERRIDE.exists():
+        raise SystemExit(f'Missing Informe Alfred override: {INFORME_OVERRIDE}')
+    if hashlib.sha256(INFORME_OVERRIDE.read_bytes()).hexdigest()!=INFORME_SHA256:
+        raise SystemExit('Informe Alfred override SHA-256 mismatch')
 
     with tempfile.TemporaryDirectory() as td:
         td=Path(td); src=td/'src'; out=td/'out'
@@ -346,13 +357,16 @@ def main():
             ('STGND - Minuta.docx',improve_minuta),
         ]
         for name,fn in specs:
+            if name=='STGND - Informe.docx':
+                # Esta revisión es una fuente autoritativa aprobada y se conserva
+                # sin remaquetación adicional para no alterar tabla, portada ni firma.
+                shutil.copy2(INFORME_OVERRIDE,out/name)
+                continue
             doc=Document(src/name)
             fn(doc)
             doc.save(out/name)
             soften_signature_placeholder(out/name)
-            if name=='STGND - Informe.docx':
-                normalize_header_graphics(out/name,False)
-            elif name=='STGND - Minuta.docx':
+            if name=='STGND - Minuta.docx':
                 normalize_header_graphics(out/name,True)
 
         qa=audit_documents(src,out,specs)

@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'tools/build_alfred_visual_v97.py'
+      - 'base/originales/STGND - Informe_2026-11-09.docx'
       - '.github/workflows/build-alfred-v97.yml'
   workflow_dispatch:
 

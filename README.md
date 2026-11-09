@@ -98,3 +98,11 @@ Correcciones:
 - El paquete activo contiene seis documentos. La ficha de solicitud de compras, eliminada del catálogo por decisión editorial, queda sólo en el archivo histórico `base/originales/STGND - Oficio_original.zip`.
 - La reconstrucción usa siempre el archivo histórico original como fuente autoritativa, evitando aplicar estilos repetidamente sobre una versión ya transformada.
 - `base/ALFRED_QA_v97.json` registra márgenes, tamaños de página, estructura y conteos de objetos para cada documento.
+
+
+## Revisión Informe Alfred — 9 de noviembre de 2026
+
+- `base/originales/STGND - Informe_2026-11-09.docx` pasa a ser la fuente autoritativa del Informe Alfred.
+- Conserva portada, índice, cuatro secciones, firma digital y la tabla de ejemplo incorporada en Antecedentes.
+- El configurador localiza Antecedentes, Introducción, Análisis y Consideraciones Finales por encabezado, no por índices fijos de párrafo.
+- El resto de los formatos Alfred continúa reconstruyéndose desde el histórico original v9.7.
